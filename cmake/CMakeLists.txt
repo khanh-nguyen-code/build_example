@@ -7,16 +7,17 @@ set(CMAKE_BUILD_TYPE Debug)
 # include directories
 include_directories(
     "include"
-    "vendor/adder/include"
+    "vendor/another_math/include"
 )
 # vendor library directories
 link_directories(
-    "vendor/adder/build"
+    "vendor/another_math/build"
 )
 
 # vendor: list of vendor packages to be linked with library and target
 set(vendor
     "adder"
+    "multiplier"
 )
 
 # library_list: placeholder for all building libraries
