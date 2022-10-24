@@ -1,7 +1,7 @@
 #include"loader/loader.h"
-#include<cmath>
+#include"adder/adder.h"
 namespace loader {
-double load() {
-    return std::log(20.0);
+int load() {
+    return adder::add(1, 2);
 }
 } // namespace loader
