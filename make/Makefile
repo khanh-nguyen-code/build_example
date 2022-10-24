@@ -61,6 +61,6 @@ obj/%.o: src/%.cpp
 
 # clean
 clean:
-	rm -f $(TEXT_OUT) $(LIBRARY_OUT) $(TARGET_OUT)
+	rm -rf $(TEXT_OUT) $(LIBRARY_OUT) $(TARGET_OUT) obj lib *.dSYM
 
 .PHONY: target directory text library clean
