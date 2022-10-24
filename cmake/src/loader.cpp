@@ -1,6 +1,7 @@
 #include"loader.h"
+#include<cmath>
 namespace loader {
-std::string load() {
-    return "hello world!";
+double load() {
+    return std::log(20.0);
 }
 } // namespace loader

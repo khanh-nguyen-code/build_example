@@ -3,6 +3,6 @@
 
 int main() {
     auto content = loader::load();
-    std::cout << content << std::endl;
+    std::cout << "hello: " << content << std::endl;
     return 0;
 }
