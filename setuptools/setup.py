@@ -4,6 +4,7 @@ import setuptools
 from Cython import Distutils
 
 MODULE = "testmodule"
+AUTHOR = "khanh"
 
 if __name__ == "__main__":
     setuptools.setup(
@@ -11,7 +12,7 @@ if __name__ == "__main__":
         packages=[MODULE, ],
         zip_safe=False,
         name=MODULE,
-        author="khanh",
+        author=AUTHOR,
         cmdclass={"build_ext": Distutils.build_ext},
         ext_modules=[
             setuptools.Extension(
