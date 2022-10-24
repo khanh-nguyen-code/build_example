@@ -1,8 +1,9 @@
 #include<iostream>
 #include"loader/loader.h"
+#include"printer/printer.h"
 
 int main() {
-    auto content = loader::load();
-    std::cout << "hello: " << content << std::endl;
+    int content = loader::load();
+    printer::print(content);
     return 0;
 }
