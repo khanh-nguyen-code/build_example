@@ -1,3 +1,6 @@
+MODULE = testmodule
+
+
 .PHONY: run build clean
 
 run: build
@@ -7,9 +10,9 @@ build: clean
 	python -m pip install -e .
 
 clean:
-	python -m pip uninstall -y testmodule
+	python -m pip uninstall -y $(MODULE)
 	rm -rf \
 		build \
-		testmodule.egg-info \
-		testmodule/*.so testmodule/*.c
+		$(MODULE).egg-info \
+		$(MODULE)/*.so $(MODULE)/*.c
 
