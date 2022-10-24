@@ -25,6 +25,8 @@ OBJECT_OUT = $(patsubst src/%.cpp,obj/%.o,$(OBJECT_SRC))
 TEXT_SRC = $(wildcard text/*.txt)
 TEXT_OUT = $(patsubst text/%.txt,text/%.txt.h,$(TEXT_SRC))
 
+.PHONY: target directory text library clean
+
 # target
 target: directory text library $(TARGET_OUT)
 	@echo "TARGET DONE"	
@@ -62,5 +64,3 @@ obj/%.o: src/%.cpp
 # clean
 clean:
 	rm -rf $(TEXT_OUT) $(LIBRARY_OUT) $(TARGET_OUT) obj lib *.dSYM
-
-.PHONY: target directory text library clean
