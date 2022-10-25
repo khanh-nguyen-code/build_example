@@ -18,7 +18,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 # generate library build - add to library_list
 file(GLOB target_dir_list "${source_dir}/*")
-foreach(target_dir ${target_dir_list} ${test_dir_list})
+foreach(target_dir ${target_dir_list})
     get_filename_component(target ${target_dir} NAME_WE)
     message("generating library ... " ${target})
 
@@ -30,7 +30,7 @@ endforeach()
 
 # generate test build 
 file(GLOB target_dir_list "${test_dir}/*")
-foreach(target_dir ${target_dir_list} ${test_dir_list})
+foreach(target_dir ${target_dir_list})
     get_filename_component(target ${target_dir} NAME_WE)
     message("generating test ... " ${target})
 
