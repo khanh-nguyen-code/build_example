@@ -11,7 +11,7 @@ include_directories(
 )
 # vendor library directories
 link_directories(
-    "vendor/another_math/build"
+    "vendor/another_math/build/lib"
 )
 
 # vendor: list of vendor packages to be linked with library and target
@@ -23,13 +23,18 @@ set(vendor
 # library_list: placeholder for all building libraries
 set(library_list)  
 
+# set output dir
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+
 # generate library build 
-file(GLOB library_dir_list "src/*")
+file(GLOB library_dir_list "${CMAKE_CURRENT_SOURCE_DIR}/src/*")
 foreach(library_dir ${library_dir_list})
     get_filename_component(library ${library_dir} NAME_WE)
     message("generating library ... " ${library})
 
-    file(GLOB_RECURSE library_src ${library_dir}/*.cpp)
+    file(GLOB_RECURSE library_src "${library_dir}/*.cpp")
     add_library(${library} SHARED ${library_src})
     target_link_libraries(${library} ${vendor})
 
@@ -39,16 +44,17 @@ endforeach()
 
 
 
-# generate target build 
-file(GLOB target_src_list "*.cpp")
-foreach(target_src ${target_src_list})
-    get_filename_component(target_out ${target_src} NAME_WE)
-    message("generating target ... " ${target_out})
+# generate target build
+file(GLOB target_dir_list "${CMAKE_CURRENT_SOURCE_DIR}/test/*")
+foreach(target_dir ${target_dir_list})
+    get_filename_component(target ${target_dir} NAME_WE)
+    message("generating target ... " ${target})
 
-    add_executable(${target_out} ${target_src})
-    target_link_libraries(${target_out} ${library_list} ${vendor})
+    file(GLOB_RECURSE target_src "${target_dir}/*.cpp")
+    add_executable(${target} ${target_src})
+    target_link_libraries(${target} ${library_list} ${vendor})
 
-    message("generating target ... " ${target_out} " done")
+    message("generating target ... " ${target} " done")
 endforeach()
 
 
