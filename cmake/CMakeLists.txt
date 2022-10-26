@@ -4,6 +4,9 @@ project("example")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_BUILD_TYPE Debug)
 
+set(default_build_type "Debug")
+
+
 # set source and test directory
 set(source_dir "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(test_dir "${CMAKE_CURRENT_SOURCE_DIR}/test")
