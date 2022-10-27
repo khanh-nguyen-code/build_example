@@ -11,6 +11,9 @@ ifeq ($(UNAME), Linux)
 endif
 ifeq ($(UNAME), Darwin)
 	# specific for MacOS
+	CC = clang
+	CFLAGS = $(COMMON_FLAGS) -Wall -fPIC 
+	LDFLAGS = -l stdc++
 endif
 
 
