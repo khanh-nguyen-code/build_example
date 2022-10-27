@@ -1,45 +1,45 @@
 # declaration
 UNAME = $(shell uname)
 
+CFLAGS = -I include -L lib
+LDFLAGS = -l stdc++
+
 ifeq ($(UNAME), Linux)
 	# specific for Linux
-	CC = cc
-	CFLAGS = -Wall -g -std=c++17 -fPIC -I . -I include -L lib
-	LDFLAGS = -l stdc++
+	CC = gcc
+	CFLAGS += -Wall -g -std=c++17 -fPIC 
+	LDFLAGS +=
 endif
 ifeq ($(UNAME), Darwin)
 	# specific for MacOS
 endif
 
-TARGET_SRC_LIST = $(wildcard target/*)
-TARGET_LIST = $(patsubst target/%,%,$(TARGET_SRC_LIST))
-TARGET_OUT_LIST = $(patsubst %,bin/%,$(TARGET_LIST))
 
+# compile object
+OBJECT_SRC_LIST = $(shell find src -name "*.cpp") # recursive wildcard
+OBJECT_OUT_LIST = $(patsubst src/%.cpp,obj/%.o,$(OBJECT_SRC_LIST))
+obj/%.o: src/%.cpp
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+# link library
 LIBRARY_SRC_LIST = $(wildcard src/*)
-LIBRARY_LIST = $(patsubst src/%,%,$(LIBRARY_SRC_LIST))
-LIBRARY_OUT_LIST = $(patsubst %,lib/lib%.so,$(LIBRARY_LIST))
+LIBRARY_OUT_LIST = $(patsubst src/%,lib/lib%.so,$(LIBRARY_SRC_LIST))
+lib/lib%.so: # not sure how to put in the dependencies here
+	@mkdir -p lib
+	$(CC) $(CFLAGS) -shared -o $@ obj/$*/*.o $(LDFLAGS)
 
-.PHONY: target directory library clean
+# compile and link target
+TARGET_SRC_LIST = $(wildcard target/*.cpp)
+TARGET_OUT_LIST = $(patsubst target/%.cpp,bin/%,$(TARGET_SRC_LIST))
+THIS_LDFLAGS = $(patsubst src/%,-l %,$(LIBRARY_SRC_LIST))
+bin/%: target/%.cpp
+	@mkdir -p bin
+	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS) $(THIS_LDFLAGS)
 
-# target
-target: directory library $(TARGET_OUT_LIST)
+test: $(OBJECT_OUT_LIST) $(LIBRARY_OUT_LIST) $(TARGET_OUT_LIST)
 
-bin/%: target/%
-	@echo "building target ... $*"
-	$(CC) $(CFLAGS) -o $@ $</*.cpp $(LDFLAGS) $(patsubst %,-l %,$(LIBRARY_LIST))
-
-# directory
-directory:
-	mkdir -p bin lib
-
-# library
-library: $(LIBRARY_OUT_LIST)
-
-lib/lib%.so: src/%
-	@echo "building library ... $*"
-	$(CC) $(CFLAGS) -shared -o $@ $</*.cpp $(LDFLAGS)
-
-
-# clean
 clean:
-	rm -rf bin lib
+	rm -rf obj lib bin
+
+.PHONY: clean test
