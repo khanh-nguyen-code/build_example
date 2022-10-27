@@ -37,9 +37,9 @@ bin/%: target/%.cpp
 	@mkdir -p bin
 	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS) $(THIS_LDFLAGS)
 
-test: $(OBJECT_OUT_LIST) $(LIBRARY_OUT_LIST) $(TARGET_OUT_LIST)
+all: $(OBJECT_OUT_LIST) $(LIBRARY_OUT_LIST) $(TARGET_OUT_LIST)
 
 clean:
 	rm -rf obj lib bin
 
-.PHONY: clean test
+.PHONY: clean all
