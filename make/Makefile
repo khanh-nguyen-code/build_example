@@ -1,14 +1,13 @@
 # declaration
 UNAME = $(shell uname)
 
-CFLAGS = -I include -L lib
-LDFLAGS = -l stdc++
+COMMON_FLAGS = -g -std=c++17 -I include -L lib
 
 ifeq ($(UNAME), Linux)
 	# specific for Linux
 	CC = gcc
-	CFLAGS += -Wall -g -std=c++17 -fPIC 
-	LDFLAGS +=
+	CFLAGS = $(COMMON_FLAGS) -Wall -fPIC 
+	LDFLAGS = -l stdc++
 endif
 ifeq ($(UNAME), Darwin)
 	# specific for MacOS
