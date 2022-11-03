@@ -32,12 +32,12 @@ lib/lib%.so: # not sure how to put in the dependencies here
 	$(CC) $(CFLAGS) -shared -o $@ obj/$*/*.o $(LDFLAGS)
 
 # compile and link target
-TARGET_SRC_LIST = $(wildcard target/*.cpp)
-TARGET_OUT_LIST = $(patsubst target/%.cpp,bin/%,$(TARGET_SRC_LIST))
+TARGET_SRC_LIST = $(wildcard target/*)
+TARGET_OUT_LIST = $(patsubst target/%,bin/%,$(TARGET_SRC_LIST))
 THIS_LDFLAGS = $(patsubst src/%,-l %,$(LIBRARY_SRC_LIST))
-bin/%: target/%.cpp
+bin/%: target/%
 	@mkdir -p bin
-	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS) $(THIS_LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $</*.cpp $(LDFLAGS) $(THIS_LDFLAGS)
 
 all: $(OBJECT_OUT_LIST) $(LIBRARY_OUT_LIST) $(TARGET_OUT_LIST)
 
